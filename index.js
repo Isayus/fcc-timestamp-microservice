@@ -26,33 +26,29 @@ app.get("/api/hello", function (req, res) {
 
 
 // --- INICIO DEL CÓDIGO DEL PROYECTO TIMESTAMP ---
-// Esta es la ruta principal que tienes que construir
 
 app.get("/api/:date?", (req, res) => {
   const dateString = req.params.date;
   let date;
 
-  // Caso 1: No se proporciona el parámetro de fecha, usamos la fecha actual.
+ 
   if (!dateString) {
     date = new Date();
   } else {
-    // Caso 2: Se proporciona un parámetro.
-    // Comprobamos si es un número (para el timestamp de Unix).
+
     if (!isNaN(dateString)) {
-      // Si es un número, lo convertimos a entero antes de crear la fecha.
+    
       date = new Date(parseInt(dateString));
     } else {
-      // Si no es un número, lo tratamos como una cadena de fecha normal.
+     
       date = new Date(dateString);
     }
   }
 
-  // Caso 3: Verificamos si la fecha que hemos creado es válida.
-  // El método .toUTCString() de una fecha inválida devuelve "Invalid Date".
   if (date.toUTCString() === "Invalid Date") {
     res.json({ error: "Invalid Date" });
   } else {
-    // Si la fecha es válida, devolvemos el objeto JSON con el formato correcto.
+    
     res.json({
       unix: date.getTime(),
       utc: date.toUTCString()
